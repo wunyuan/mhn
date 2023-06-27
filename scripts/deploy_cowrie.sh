@@ -1,4 +1,5 @@
 #!/bin/bash
+#This script for cowrie 2.5.0 
 
 set -e
 set -x
@@ -11,15 +12,14 @@ if [ $# -ne 2 ]
 fi
 
 apt-get update
-apt-get install -y python
 
 server_url=$1
 deploy_key=$2
 
-apt-get update
-apt-get -y install python-dev git supervisor authbind openssl python-virtualenv build-essential python-gmpy2 libgmp-dev libmpfr-dev libmpc-dev libssl-dev python-pip libffi-dev
+apt-get install -y git libssl-dev libffi-dev build-essential libpython3-dev python3-minimal authbind virtualenv python3-venv supervisor python3-pip
 
-pip install -U supervisor
+pip3 install --upgrade pip
+pip3 install -U supervisor
 /etc/init.d/supervisor start || true
 
 sed -i 's/#Port/Port/g' /etc/ssh/sshd_config
@@ -32,34 +32,37 @@ git clone https://github.com/micheloosterhof/cowrie.git cowrie
 cd cowrie
 
 # Most recent known working version
-git checkout 34f8464
+# git checkout ecfb7e3
 
 # Config for requirements.txt
-cat > /opt/cowrie/requirements.txt <<EOF
-twisted>=17.1.0
-cryptography>=2.1
-configparser
-pyopenssl
-pyparsing
-packaging
-appdirs>=1.4.0
-pyasn1_modules
-attrs
-service_identity
-python-dateutil
-tftpy
-bcrypt
-EOF
+#cat > /opt/cowrie/requirements.txt <<EOF
+#twisted>=17.1.0
+#cryptography>=2.1
+#configparser
+#pyopenssl
+#pyparsing
+#packaging
+#appdirs>=1.4.0
+#pyasn1_modules
+#attrs
+#service_identity
+#python-dateutil
+#tftpy
+#bcrypt
+#EOF
 
-virtualenv cowrie-env #env name has changed to cowrie-env on latest version of cowrie
+#virtualenv cowrie-env #env name has changed to cowrie-env on latest version of cowrie
+python3 -m venv cowrie-env
 source cowrie-env/bin/activate
 # without the following, i get this error:
 # Could not find a version that satisfies the requirement csirtgsdk (from -r requirements.txt (line 10)) (from versions: 0.0.0a5, 0.0.0a6, 0.0.0a5.linux-x86_64, 0.0.0a6.linux-x86_64, 0.0.0a3)
-pip install csirtgsdk==0.0.0a6
-pip install -r requirements.txt 
+#pip install csirtgsdk==0.0.0a6
+pip3 install --upgrade -r requirements.txt
+#pip install -r requirements.txt 
+
 
 # Register sensor with MHN server.
-wget $server_url/static/registration.txt -O registration.sh
+wget $server_url/static/registration_for_python3.txt -O registration.sh
 chmod 755 registration.sh
 # Note: this will export the HPF_* variables
 . ./registration.sh $server_url $deploy_key "cowrie"
@@ -70,12 +73,12 @@ sed -i 's/hostname = svr04/hostname = server/g' cowrie.cfg
 sed -i 's/listen_endpoints = tcp:2222:interface=0.0.0.0/listen_endpoints = tcp:22:interface=0.0.0.0/g' cowrie.cfg
 sed -i 's/version = SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2/version = SSH-2.0-OpenSSH_6.7p1 Ubuntu-5ubuntu1.3/g' cowrie.cfg
 sed -i 's/#\[output_hpfeeds\]/[output_hpfeeds]/g' cowrie.cfg
-sed -i '/\[output_hpfeeds\]/!b;n;cenabled = true' cowrie.cfg
-sed -i "s/#server = hpfeeds.mysite.org/server = $HPF_HOST/g" cowrie.cfg
-sed -i "s/#port = 10000/port = $HPF_PORT/g" cowrie.cfg
-sed -i "s/#identifier = abc123/identifier = $HPF_IDENT/g" cowrie.cfg
-sed -i "s/#secret = secret/secret = $HPF_SECRET/g" cowrie.cfg
-sed -i 's/#debug=false/debug=false/' cowrie.cfg
+sed -i '/\[output_hpfeeds3\]/!b;n;cenabled = true' cowrie.cfg
+sed -i "s/server = hpfeeds.mysite.org/server = $HPF_HOST/g" cowrie.cfg
+sed -i "s/port = 10000/port = $HPF_PORT/g" cowrie.cfg
+sed -i "s/identifier = abc123/identifier = $HPF_IDENT/g" cowrie.cfg
+sed -i "s/secret = secret/secret = $HPF_SECRET/g" cowrie.cfg
+sed -i 's/debug=false/debug=false/' cowrie.cfg
 cd ..
 
 chown -R cowrie:users /opt/cowrie/
@@ -102,4 +105,3 @@ user=cowrie
 EOF
 
 supervisorctl update
-
