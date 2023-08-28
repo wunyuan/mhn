@@ -12,7 +12,7 @@ server_url=$1
 deploy_key=$2
 
 apt-get update
-apt-get -y install git python-pip supervisor
+apt-get -y install git  supervisor
 pip install virtualenv
 
 # Get the Shockpot source

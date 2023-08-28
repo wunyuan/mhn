@@ -34,7 +34,7 @@ server_url=$1
 deploy_key=$2
 
 apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential libpcap-dev libjansson-dev libpcre3-dev libdnet-dev libdumbnet-dev libdaq-dev flex bison python-pip git make automake libtool zlib1g-dev
+DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential libpcap-dev libjansson-dev libpcre3-dev libdnet-dev libdumbnet-dev libdaq-dev flex bison  git make automake libtool zlib1g-dev
 
 pip install --upgrade distribute
 pip install virtualenv
