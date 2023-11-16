@@ -48,7 +48,10 @@ git clone https://github.com/pwnlandia/mnemosyne.git
 cd mnemosyne
 $VIRTUALENV -p $PYTHON env
 . env/bin/activate
-sed -i 's/-e git+https:\/\/github.com\/threatstream\/hpfeeds\/#egg=hpfeeds-dev/hpfeeds-threatstream/g' requirements.txt
+#sed -i 's/-e git+https:\/\/github.com\/threatstream\/hpfeeds\/#egg=hpfeeds-dev/hpfeeds-threatstream/g' requirements.txt
+sed -i 's/-e git+https:\/\/github.com\/threatstream\/hpfeeds\/#egg=hpfeeds-dev/-e git+https:\/\/github.com\/hpfeeds\/hpfeeds.git#egg=hpfeeds-dev/g' requirements.txt
+
+
 pip install -r requirements.txt
 chmod 755 -R .
 
