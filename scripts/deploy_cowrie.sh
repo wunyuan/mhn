@@ -20,7 +20,7 @@ apt-get install -y git libssl-dev libffi-dev build-essential libpython3-dev pyth
 
 pip3 install --upgrade pip
 #pip3 install -U supervisor
-/etc/init.d/supervisor start || true
+#/etc/init.d/supervisor start || true
 
 sed -i 's/#Port/Port/g' /etc/ssh/sshd_config
 sed -i 's/Port 22$/Port 2222/g' /etc/ssh/sshd_config
