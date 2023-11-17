@@ -19,7 +19,7 @@ deploy_key=$2
 apt-get install -y git libssl-dev libffi-dev build-essential libpython3-dev python3-minimal authbind virtualenv python3-venv supervisor python3-pip
 
 pip3 install --upgrade pip
-pip3 install -U supervisor
+#pip3 install -U supervisor
 /etc/init.d/supervisor start || true
 
 sed -i 's/#Port/Port/g' /etc/ssh/sshd_config
