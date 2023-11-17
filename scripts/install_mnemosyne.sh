@@ -44,12 +44,15 @@ bash $SCRIPTS/install_mongo.sh
 mkdir -p /opt
 cd /opt/
 rm -rf /opt/mnemosyne
-git clone https://github.com/pwnlandia/mnemosyne.git
+#git clone https://github.com/pwnlandia/mnemosyne.git
+git clone https://github.com/wunyuan/mnemosyne.git
 cd mnemosyne
+git checkout -b wunyuan_test origin/wunyuan_test
+tar zxvf /opt/mnemosyne/env/src/hpfeeds-dev.tar.gz
 $VIRTUALENV -p $PYTHON env
 . env/bin/activate
 #sed -i 's/-e git+https:\/\/github.com\/threatstream\/hpfeeds\/#egg=hpfeeds-dev/hpfeeds-threatstream/g' requirements.txt
-sed -i 's/-e git+https:\/\/github.com\/threatstream\/hpfeeds\/#egg=hpfeeds-dev/-e git+https:\/\/github.com\/hpfeeds\/hpfeeds.git#egg=hpfeeds-dev/g' requirements.txt
+#sed -i 's/-e git+https:\/\/github.com\/threatstream\/hpfeeds\/#egg=hpfeeds-dev/-e git+https:\/\/github.com\/hpfeeds\/hpfeeds.git#egg=hpfeeds-dev/g' requirements.txt
 
 
 pip install -r requirements.txt
