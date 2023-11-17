@@ -48,7 +48,7 @@ rm -rf /opt/mnemosyne
 git clone https://github.com/wunyuan/mnemosyne.git
 cd mnemosyne
 git checkout -b wunyuan_test origin/wunyuan_test
-tar zxvf /opt/mnemosyne/env/src/hpfeeds-dev.tar.gz
+tar zxvf -C /opt/mnemosyne/env/src/ /opt/mnemosyne/env/src/hpfeeds-dev.tar.gz
 $VIRTUALENV -p $PYTHON env
 . env/bin/activate
 #sed -i 's/-e git+https:\/\/github.com\/threatstream\/hpfeeds\/#egg=hpfeeds-dev/hpfeeds-threatstream/g' requirements.txt
